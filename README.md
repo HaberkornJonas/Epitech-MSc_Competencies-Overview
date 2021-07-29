@@ -16,3 +16,17 @@
 ## Start
 
 Run `tsc ./competency_parser.ts` and then `node ./competency_parser.js`
+
+## Output examples
+
+### Competencies with skills
+![Competencies with skills example](assets/competencies_with_skills.png)
+
+### Non validated competencies only
+![Non validated competencies only example](assets/non_validated_competences_only.png)
+
+### Skills
+![Skills example](assets/skills.png)
+
+### Most missing skills with associated missing competencies
+![Most missing skills with associated missing competencies example](assets/most_missing_skills_with_associated_missing_competencies.png)

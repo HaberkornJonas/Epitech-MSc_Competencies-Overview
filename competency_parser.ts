@@ -163,8 +163,8 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
             c.skills.forEach(s => {
               console.log(`│    │    ├── ${s.name}`);
             });
+            console.log('│    │');
           }
-          console.log('│    │');
         });
         console.log('│');
       });
@@ -192,7 +192,7 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
         console.log(`(${pad(s.percentageValidated(), 3)}%) ${s.name}`);
         if(displayCompetencies){
           s.nonValidatedCompetencies.forEach(c => {
-            console.log(`        [ ] ${c.name}`)
+            console.log(`            [ ] ${c.name}`)
           });
         }
       }
