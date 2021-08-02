@@ -2,7 +2,7 @@
 
 ## Setup
 * You will need [NodeJS](https://nodejs.org/en/download/) to be installed 
-* Run `npm install -g typescript` and `npm install` in this directory
+* Run `npm install` in this directory
 * Get your competency tree and store it in the `compentency_tree.html` file
   * Go to Moodle
   * Go to the competency page
@@ -15,7 +15,7 @@
 
 ## Start
 
-Run `tsc ./competency_parser.ts` and then `node ./competency_parser.js`
+Run `npm start`
 
 ## Output examples
 

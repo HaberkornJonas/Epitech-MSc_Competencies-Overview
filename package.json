@@ -1,0 +1,34 @@
+{
+  "name": "competency_overview",
+  "version": "1.0.0",
+  "description": "Parses the competency tree from Moodle to show, filter and order competencies and skills",
+  "main": "competency_parser.js",
+  "dependencies": {
+    "@types/node": "^16.4.10",
+    "@types/prompt": "^1.1.1",
+    "node-html-parser": "^4.1.2",
+    "prompt": "^1.1.0",
+    "source-map-loader": "^3.0.0",
+    "ts-loader": "^9.2.4",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "tsc ./competency_parser.ts && node ./competency_parser.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaberkornJonas/Epitech-MSc_Competencies-Overview.git"
+  },
+  "keywords": [
+    "Epitech",
+    "MSc-Pro",
+    "Competencies"
+  ],
+  "author": "Jonas Haberkorn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HaberkornJonas/Epitech-MSc_Competencies-Overview/issues"
+  },
+  "homepage": "https://github.com/HaberkornJonas/Epitech-MSc_Competencies-Overview#readme"
+}
