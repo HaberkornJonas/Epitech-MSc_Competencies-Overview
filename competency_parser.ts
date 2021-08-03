@@ -7,6 +7,8 @@ const getPercentage = (value: number, outOf: number): number => {
   return Math.round((value / outOf) * 100);
 }
 
+const simulateValidationOfCompetencies: string[] = [];
+
 //************************************
 //            DATA MODELS 
 //************************************
@@ -88,6 +90,9 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
       for(var competencyNode of competencyNodes){
         let competencyName = competencyNode.querySelector('.branch-end > .competencyLine > .competencyTitle').textContent.trim();
         let competencyValidated = !!competencyNode.classList.contains('proficient');
+
+        if(simulateValidationOfCompetencies.some(c => c === competencyName))
+          competencyValidated = true;
 
         let skills: Skill[] = competencyNode.querySelector('div.description p')?.innerHTML.split('<br>').map(s => {return {name: s.trim().replace('-', ' - ')}}).filter(s => s.name.length > 0) || [];
 
@@ -196,12 +201,19 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
       return str;
     }
 
+    let referencedCompetencies = []
+
     skillStats.forEach(s => {
       if(orderByMostMissing){
         console.log(`(${pad(s.percentageValidated(), 3)}%) ${s.name}`);
         if(displayCompetencies){
           s.nonValidatedCompetencies.forEach(c => {
             console.log(`            [ ] ${c.name}`)
+            let index = referencedCompetencies.findIndex(d => d.name === c.name)
+            if(index == -1)
+              referencedCompetencies.push({name: c.name, count: 1});
+            else
+              referencedCompetencies[index].count = referencedCompetencies[index].count + 1;
           });
         }
       }
@@ -218,6 +230,17 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
       }
       displayCompetencies && console.log('');
     });
+
+    if(orderByMostMissing && displayCompetencies) {
+      console.log("")
+      console.log("")
+      console.log("Most referenced competencies:")
+      referencedCompetencies.sort((a,b) => b.count-a.count).forEach(c => {
+        console.log(`    - ${c.name} (${c.count} times)`);
+      });
+      console.log("")
+      console.log("")
+    }
   }
 
 
