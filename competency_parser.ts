@@ -3,6 +3,9 @@ import * as fs from "fs";
 import * as prompt from 'prompt';
 prompt.start();
 
+const getPercentage = (value: number, outOf: number): number => {
+  return Math.round((value / outOf) * 100);
+}
 
 //************************************
 //            DATA MODELS 
@@ -44,7 +47,7 @@ class SkillStats extends Skill {
   }
 
   percentageValidated = (): number => {
-    return Math.round((this.validatedCompetencies.length / (this.validatedCompetencies.length + this.nonValidatedCompetencies.length)) * 100);
+    return getPercentage(this.validatedCompetencies.length, this.validatedCompetencies.length + this.nonValidatedCompetencies.length);
   }
 }
 
@@ -62,7 +65,9 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
 
   let layer1Count: number = 0;
   let layer2Count: number = 0;
+  let layer2ValidatedCount: number = 0;
   let competenciesCount: number = 0;
+  let competenciesValidatedCount: number = 0;
   let layer1Competencies: CompetencyLayer1[] = [];
   const root = parse(data);
   const layer1Nodes = root.querySelectorAll('.competencyTree > ul.tree > .branch > .tree');
@@ -92,6 +97,8 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
           skills
         });
         competenciesCount += 1;
+        if(competencyValidated)
+          competenciesValidatedCount += 1;
       }
 
       layer2Competencies.push({
@@ -100,6 +107,8 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
         competencies
       });
       layer2Count += 1;
+      if(layer2Validated)
+        layer2ValidatedCount += 1;
     }
 
     layer1Competencies.push({
@@ -222,8 +231,8 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
     console.log('');
     console.log('In total, we found in the html document:');
     console.log(`    - ${layer1Count} entries for layer 1`);
-    console.log(`    - ${layer2Count} entries for layer 2`);
-    console.log(`    - ${competenciesCount} entries for competencies`);
+    console.log(`    - ${layer2Count} entries for layer 2 (you validated ${layer2ValidatedCount} of them - ${getPercentage(layer2ValidatedCount, layer2Count)}%)`);
+    console.log(`    - ${competenciesCount} entries for competencies (you validated ${competenciesValidatedCount} of them - ${getPercentage(competenciesValidatedCount, competenciesCount)}%)`);
     console.log(`    - ${skillStats.length} different skills`);
     console.log('');
     console.log('');
