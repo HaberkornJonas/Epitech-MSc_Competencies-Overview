@@ -70,6 +70,8 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
   let layer2ValidatedCount: number = 0;
   let competenciesCount: number = 0;
   let competenciesValidatedCount: number = 0;
+  let skillAssignments: number = 0;
+  let validatedSkillAssignments: number = 0;
   let layer1Competencies: CompetencyLayer1[] = [];
   const root = parse(data);
   const layer1Nodes = root.querySelectorAll('.competencyTree > ul.tree > .branch > .tree');
@@ -95,6 +97,10 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
           competencyValidated = true;
 
         let skills: Skill[] = competencyNode.querySelector('div.description p')?.innerHTML.split('<br>').map(s => {return {name: s.trim().replace('-', ' - ')}}).filter(s => s.name.length > 0) || [];
+
+        skillAssignments += skills.length;
+        if(competencyValidated)
+          validatedSkillAssignments += skills.length;
 
         competencies.push({
           name: competencyName,
@@ -256,7 +262,7 @@ fs.readFile('./competency_tree.html', 'utf8', function (err,data) {
     console.log(`    - ${layer1Count} entries for layer 1`);
     console.log(`    - ${layer2Count} entries for layer 2 (you validated ${layer2ValidatedCount} of them - ${getPercentage(layer2ValidatedCount, layer2Count)}%)`);
     console.log(`    - ${competenciesCount} entries for competencies (you validated ${competenciesValidatedCount} of them - ${getPercentage(competenciesValidatedCount, competenciesCount)}%)`);
-    console.log(`    - ${skillStats.length} different skills`);
+    console.log(`    - ${skillStats.length} different skills (assigned a total of ${skillAssignments} times of which you validated ${validatedSkillAssignments} - ${getPercentage(validatedSkillAssignments, skillAssignments)}%)`);
     console.log('');
     console.log('');
     console.log('File parsed, what are you looking for?');
